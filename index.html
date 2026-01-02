@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Romeo & Juliet - Risorsa Didattica 4C | IIS MENDEL</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Lora:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --sidebar-w: 280px;
+            --dark: #1a1a1a;
+            --accent: #800020; /* Rosso Sangue/Teatro */
+            --gold: #c5a059;
+            --paper: #f4f4f4;
+            --text: #222;
+            --white: #ffffff;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Lora', serif;
+            background-color: #e0e0e0;
+            color: var(--text);
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* SIDEBAR NAVIGATION */
+        .sidebar {
+            width: var(--sidebar-w);
+            background: var(--dark);
+            color: #ecf0f1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            box-shadow: 5px 0 15px rgba(0,0,0,0.3);
+            z-index: 100;
+            overflow-y: auto;
+        }
+
+        .brand {
+            font-family: 'Cinzel', serif;
+            font-size: 1.4rem;
+            color: var(--gold);
+            text-align: center;
+            margin-bottom: 5px;
+            line-height: 1.2;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 15px;
+        }
+
+        .prof-info {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.7rem;
+            text-align: center;
+            color: #888;
+            margin-bottom: 20px;
+        }
+
+        .nav-btn {
+            background: transparent;
+            border: none;
+            color: #ccc;
+            text-align: left;
+            padding: 12px 15px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 5px;
+            border-left: 4px solid transparent;
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            background: rgba(255,255,255,0.05);
+            color: var(--white);
+            border-left-color: var(--gold);
+        }
+
+        /* MAIN CONTENT */
+        .main-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 40px 50px;
+            background: var(--paper);
+        }
+
+        .section { display: none; animation: fadeIn 0.3s ease; }
+        .section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 2.2rem;
+            color: var(--dark);
+            border-bottom: 4px solid var(--gold);
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+
+        /* BILINGUAL BOXES */
+        .bilingual-box {
+            background: var(--white);
+            border-radius: 8px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.05);
+            margin-bottom: 25px;
+            border: 1px solid #ddd;
+            overflow: hidden;
+        }
+        .box-header {
+            background: var(--dark);
+            color: var(--gold);
+            padding: 12px 20px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+        .box-body { display: grid; grid-template-columns: 1fr 1fr; }
+        .col { padding: 25px; font-size: 0.95rem; line-height: 1.7; }
+        .it-col { border-right: 1px solid #eee; background: #fff; }
+        .en-col { background: #fcfcfc; font-style: italic; color: #444; }
+        .lang-label { display: block; font-size: 0.65rem; font-weight: bold; color: #aaa; margin-bottom: 5px; font-family: sans-serif; }
+
+        /* ANALYSIS CARDS */
+        .analysis-card {
+            background: var(--white);
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 8px;
+            border-left: 6px solid var(--accent);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+        }
+        .analysis-card h3 { margin-top: 0; color: var(--accent); font-family: 'Cinzel', serif; display: flex; align-items: center; gap: 10px; }
+        
+        .theme-title { font-family: 'Cinzel', serif; color: var(--accent); margin-bottom: 10px; font-weight: bold; display: block; font-size: 1.1rem; }
+
+        /* GLOSSARY TABLE */
+        .glossary-container { max-height: 600px; overflow-y: auto; border: 1px solid #ddd; }
+        .glossary-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+        .glossary-table th { background: var(--gold); color: white; padding: 10px; text-align: left; position: sticky; top: 0; }
+        .glossary-table td { padding: 10px; border-bottom: 1px solid #eee; vertical-align: top; }
+        .glossary-table tr:nth-child(even) { background-color: #f9f9f9; }
+        .term { font-weight: bold; color: var(--accent); font-family: 'Cinzel', serif; width: 25%; }
+
+        /* QUIZ & QA */
+        .quiz-container { display: flex; flex-direction: column; gap: 15px; }
+        .quiz-card {
+            background: var(--white); padding: 20px; border-radius: 8px; border-left: 5px solid #2980b9;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .quiz-question { font-weight: bold; font-size: 1rem; color: #222; margin-bottom: 5px; }
+        .quiz-answer { display: none; margin-top: 10px; padding: 10px; background: #eafaf1; border: 1px solid #d5f5e3; color: #1d8348; border-radius: 5px; }
+        
+        .qa-item { margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
+        .qa-question { font-weight: bold; color: var(--dark); display: block; margin-bottom: 5px; }
+        .qa-answer { color: #444; display: none; margin-top: 10px; padding: 10px; background: #eafaf1; border-left: 3px solid #27ae60; }
+
+        /* QUOTE CARDS */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); gap: 20px; }
+        .card {
+            background: var(--white); padding: 20px; border-radius: 8px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.05); border: 1px solid #eee;
+            border-left: 4px solid var(--gold);
+            transition: transform 0.2s;
+        }
+        .card:hover { transform: translateY(-3px); }
+        .meta { font-family: 'Montserrat', sans-serif; font-size: 0.7rem; font-weight: bold; color: #999; text-transform: uppercase; display: block; margin-bottom: 10px; }
+        .quote { font-size: 1.15rem; color: #222; margin-bottom: 10px; font-style: italic; line-height: 1.4; }
+        
+        .toggle-btn {
+            background: white; border: 1px solid #ccc; padding: 5px 12px;
+            border-radius: 20px; font-size: 0.75rem; cursor: pointer; transition: 0.3s;
+            margin-top: 5px; font-family: 'Montserrat', sans-serif;
+        }
+        .toggle-btn:hover { background: var(--dark); color: white; }
+
+        /* MEDIA GRID */
+        .media-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .media-placeholder {
+            border: 2px dashed #bbb; background: #eaeaea; padding: 30px; text-align: center;
+            border-radius: 8px; transition: 0.3s;
+        }
+        .media-placeholder:hover { border-color: var(--accent); background: #fff; }
+        .media-icon { font-size: 2.5rem; color: #888; margin-bottom: 10px; }
+        .media-title { font-family: 'Montserrat', sans-serif; font-weight: bold; color: var(--dark); }
+        .dl-btn {
+            display:inline-block; padding:10px 20px; background:var(--accent); color:white; 
+            text-decoration:none; border-radius:5px; margin-top:10px; font-size:0.8rem;
+        }
+        .dl-btn:hover { background: var(--dark); }
+
+        @media (max-width: 768px) {
+            .box-body, .media-grid { grid-template-columns: 1fr; }
+            .it-col { border-right: none; border-bottom: 1px solid #eee; }
+        }
+    </style>
+</head>
+<body>
+
+<nav class="sidebar">
+    <div class="brand">ROMEO & JULIET<br><span style="font-size:0.6em; color:white;">4C IIS MENDEL</span></div>
+    <div class="prof-info">Prof. Massimiliano Crespi</div>
+    
+    <button class="nav-btn active" onclick="showTab('guide')"><i class="fa-solid fa-book-open"></i> Guida Spettacolo</button>
+    <button class="nav-btn" onclick="showTab('characters')"><i class="fa-solid fa-users"></i> Personaggi & Temi</button>
+    <button class="nav-btn" onclick="showTab('cliffs')"><i class="fa-solid fa-microscope"></i> Analisi Tecnica</button>
+    <button class="nav-btn" onclick="showTab('study')"><i class="fa-solid fa-pen-nib"></i> Glossario & Studio</button>
+    <button class="nav-btn" onclick="showTab('quiz')"><i class="fa-solid fa-question-circle"></i> Quiz Verifica (20)</button>
+    <button class="nav-btn" onclick="showTab('original')"><i class="fa-solid fa-feather-pointed"></i> Shakespeare (12)</button>
+    <button class="nav-btn" onclick="showTab('script')"><i class="fa-solid fa-theater-masks"></i> Script Palketto</button>
+    <button class="nav-btn" onclick="showTab('notebook')"><i class="fa-solid fa-photo-film"></i> Materiali NotebookLM</button>
+</nav>
+
+<main class="main-content">
+
+    <div id="guide" class="section active">
+        <h2>Il Contesto e La Trama / Context & Plot</h2>
+        
+        <div class="bilingual-box">
+            <div class="box-header">🎭 Il Contesto Storico / The Historical Context</div>
+            <div class="box-body">
+                <div class="col it-col">
+                    <span class="lang-label">ITALIANO</span>
+                    <p>Sebbene ambientata a Verona, l'opera riflette le ansie dell'Inghilterra elisabettiana (1596). La Regina Elisabetta I regnava su un paese diviso religiosamente. Suo padre, <strong>Enrico VIII</strong>, aveva creato lo scisma anglicano, causando conflitti con i cattolici. La faida Montecchi-Capuleti specchia la paura inglese di una <strong>Guerra Civile</strong>: l'odio ideologico che distrugge la nazione.</p>
+                </div>
+                <div class="col en-col">
+                    <span class="lang-label">ENGLISH</span>
+                    <p>Though set in Verona, the play reflects the anxieties of England in 1596. Queen Elizabeth I ruled a religiously divided country. Her father, <strong>Henry VIII</strong>, created the Anglican schism, causing conflicts with Catholics. The Montague-Capulet feud mirrors the English fear of <strong>Civil War</strong>: ideological hatred destroying the nation.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="bilingual-box">
+            <div class="box-header">📜 Analisi della Trama Atto per Atto / Act-by-Act Analysis</div>
+            <div class="box-body">
+                <div class="col it-col">
+                    Shakespeare comprime la storia originale da 9 mesi a soli <strong>5 giorni</strong> (da domenica a giovedì) per massimizzare la tensione.<br><br>
+                    • <strong>ATTO I (Domenica):</strong> Una rissa stradale viene fermata dal Principe Escalus. Romeo, depresso per l'amore non corrisposto di Rosalina, si intrufola alla festa dei Capuleti. Lì incontra Giulietta: è amore a prima vista, un momento sacro in un mondo profano.<br><br>
+                    • <strong>ATTO II (Lunedì):</strong> Scena del balcone. I due si giurano amore eterno sfidando i nomi delle loro famiglie. Frate Lorenzo li sposa segretamente, sperando che questo possa unire le casate in guerra.<br><br>
+                    • <strong>ATTO III (Lunedì pomeriggio):</strong> Il punto di svolta. Tebaldo uccide Mercuzio. Romeo, accecato dall'ira, uccide Tebaldo e viene esiliato a Mantova. Giulietta è disperata.<br><br>
+                    • <strong>ATTO IV (Martedì):</strong> Capuleti ordina a Giulietta di sposare Paride. Lei, isolata, accetta il piano rischioso del Frate: bere una pozione per simulare la morte per 42 ore.<br><br>
+                    • <strong>ATTO V (Giovedì):</strong> Il messaggio del Frate non arriva a causa della peste. Romeo crede Giulietta morta, va alla cripta, uccide Paride e si avvelena. Giulietta si sveglia, vede Romeo morto e si pugnala. Il sacrificio dei giovani porta alla pace tra i vecchi.
+                </div>
+                <div class="col en-col">
+                    Shakespeare compresses the original story from 9 months to just <strong>5 days</strong> (Sunday to Thursday) to maximize tension.<br><br>
+                    • <strong>ACT I (Sunday):</strong> A street brawl is stopped by Prince Escalus. Romeo, depressed over unrequited love for Rosaline, sneaks into the Capulet party. There he meets Juliet: love at first sight, a sacred moment in a profane world.<br><br>
+                    • <strong>ACT II (Monday):</strong> Balcony scene. They vow eternal love, defying their family names. Friar Lawrence marries them secretly, hoping this might unite the warring houses.<br><br>
+                    • <strong>ACT III (Monday afternoon):</strong> The turning point. Tybalt kills Mercutio. Romeo, blinded by rage, kills Tybalt and is banished to Mantua. Juliet is devastated.<br><br>
+                    • <strong>ACT IV (Tuesday):</strong> Capulet orders Juliet to marry Paris. Isolated, she accepts the Friar's risky plan: drinking a potion to feign death for 42 hours.<br><br>
+                    • <strong>ACT V (Thursday):</strong> The Friar's message fails due to the plague. Romeo believes Juliet is dead, goes to the tomb, kills Paris, and poisons himself. Juliet wakes, sees Romeo dead, and stabs herself. The sacrifice of the young brings peace to the old.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="characters" class="section">
+        <h2>Personaggi & Temi</h2>
+        
+        <div class="bilingual-box">
+            <div class="box-header">1. Destino vs Carattere / Fate vs Character</div>
+            <div class="box-body">
+                <div class="col it-col"><span class="theme-title">Sfortuna o Difetto?</span>Il Prologo cita le stelle (Fato), ma i critici notano che è l'<strong>impulsività</strong> di Romeo (Carattere) a causare il disastro. È sfortuna che la lettera manchi, ma è scelta di Romeo uccidersi subito.</div>
+                <div class="col en-col"><span class="theme-title">Bad Luck or Flaw?</span>The Prologue cites stars (Fate), but critics note it is Romeo's <strong>impulsiveness</strong> (Character) that causes the disaster. It is bad luck the letter fails, but Romeo's choice to die.</div>
+            </div>
+        </div>
+
+        <div class="bilingual-box">
+            <div class="box-header">2. La Natura Paradossale / The Paradoxical Nature</div>
+            <div class="box-body">
+                <div class="col it-col">
+                    <span class="theme-title">Luce/Buio e Amore/Odio</span>
+                    Shakespeare inverte i simboli: la <strong>Luce</strong> del giorno porta risse, caldo e morte. Il <strong>Buio</strong> della notte è sicuro e amorevole. Allo stesso modo, Amore e Odio non sono opposti, ma forze simili: entrambe sono passioni violente e caotiche che portano alla distruzione ("Violent delights have violent ends").
+                </div>
+                <div class="col en-col">
+                    <span class="theme-title">Light/Dark and Love/Hate</span>
+                    Shakespeare reverses symbols: Day <strong>Light</strong> brings brawls, heat, and death. <strong>Darkness</strong> is safe and loving. Similarly, Love and Hate are not opposites but similar forces: both are violent, chaotic passions leading to destruction ("Violent delights have violent ends").
+                </div>
+            </div>
+        </div>
+
+        <div class="grid">
+            <div class="card"><span class="meta">Romeo</span><p class="quote">"O, I am fortune's fool!"</p><p>Amante impulsivo. Passa dall'amore finto per Rosalina a quello reale per Giulietta.</p></div>
+            <div class="card"><span class="meta">Juliet</span><p class="quote">"My only love sprung from my only hate."</p><p>Eroina forte. Sfida il padre e la morte per amore.</p></div>
+            <div class="card"><span class="meta">Mercutio</span><p class="quote">"A plague o' both your houses!"</p><p>Cinico realista. La sua morte segna la fine della commedia.</p></div>
+            <div class="card"><span class="meta">Friar Lawrence</span><p class="quote">"Wisely and slow..."</p><p>Predica calma ma usa gli amanti per fini politici (pace).</p></div>
+        </div>
+    </div>
+
+    <div id="cliffs" class="section">
+        <h2><i class="fa-solid fa-microscope"></i> Analisi Tecnica</h2>
+        <div class="analysis-card"><h3>Structure</h3><p>Fino all'Atto 3, l'opera è una <strong>Commedia</strong>. Dopo la morte di Mercuzio, diventa <strong>Tragedia</strong>.</p></div>
+        <div class="analysis-card"><h3>Language</h3><p>Romeo usa <strong>Ossimori</strong> ("O brawling love!") per mostrare la sua confusione emotiva iniziale.</p></div>
+    </div>
+
+    <div id="study" class="section">
+        <h2><i class="fa-solid fa-pen-nib"></i> Glossario Completo & Studio</h2>
+        
+        <div class="analysis-card">
+            <h3><i class="fa-solid fa-book"></i> Glossario Tecnico (40+ Termini)</h3>
+            <div class="glossary-container">
+            <table class="glossary-table">
+                <thead><tr><th>Termine</th><th>Definizione (ITA/ENG)</th></tr></thead>
+                <tbody>
+                    <tr><td class="term">Adam cupid</td><td>Soprannome per Cupido (Nickname for Cupid).</td></tr>
+                    <tr><td class="term">Agate-stone</td><td>Pietra per anelli (Jewel).</td></tr>
+                    <tr><td class="term">Bite your thumb</td><td>Gesto offensivo (Insulting gesture).</td></tr>
+                    <tr><td class="term">Collier</td><td>Venditore di carbone (Insult).</td></tr>
+                    <tr><td class="term">Coil</td><td>Confusione (Turmoil).</td></tr>
+                    <tr><td class="term">Fray</td><td>Rissa (Brawl).</td></tr>
+                    <tr><td class="term">Humours</td><td>I 4 fluidi corporei (Four fluids determining mood).</td></tr>
+                    <tr><td class="term">Maidenhead</td><td>Verginità (Virginity).</td></tr>
+                    <tr><td class="term">Measure</td><td>Danza (Dance).</td></tr>
+                    <tr><td class="term">Nice</td><td>Banale (Trivial).</td></tr>
+                    <tr><td class="term">Owes</td><td>Possiede (Owns).</td></tr>
+                    <tr><td class="term">Pilcher</td><td>Fodero (Scabbard).</td></tr>
+                    <tr><td class="term">Pitch</td><td>Altezza del falco (Falcon's height).</td></tr>
+                    <tr><td class="term">Primogeniture</td><td>Eredità al primogenito.</td></tr>
+                    <tr><td class="term">Pump</td><td>Scarpa leggera (Shoe).</td></tr>
+                    <tr><td class="term">Quarto</td><td>Formato libro piccolo (Small book).</td></tr>
+                    <tr><td class="term">Rapier</td><td>Spada (Sword).</td></tr>
+                    <tr><td class="term">Rosemary</td><td>Rosmarino per ricordo (Remembrance).</td></tr>
+                    <tr><td class="term">Shrift</td><td>Confessione (Confession).</td></tr>
+                    <tr><td class="term">Simples</td><td>Erbe medicinali (Herbs).</td></tr>
+                    <tr><td class="term">Soft</td><td>Aspetta (Wait/Quiet).</td></tr>
+                    <tr><td class="term">Sooth</td><td>Verità (Truth).</td></tr>
+                    <tr><td class="term">Suit</td><td>Richiesta formale (Petition).</td></tr>
+                    <tr><td class="term">Tackled stair</td><td>Scala di corda (Rope ladder).</td></tr>
+                    <tr><td class="term">Teen</td><td>Dolore (Sorrow).</td></tr>
+                    <tr><td class="term">Traffic</td><td>Affari (Business).</td></tr>
+                    <tr><td class="term">Truckle-bed</td><td>Letto basso (Trundle bed).</td></tr>
+                    <tr><td class="term">Visor</td><td>Maschera (Mask).</td></tr>
+                    <tr><td class="term">Weeds</td><td>Vestiti (Clothes).</td></tr>
+                    <tr><td class="term">Wot</td><td>Sapere (Know).</td></tr>
+                </tbody>
+            </table>
+            </div>
+        </div>
+
+        <div class="analysis-card">
+            <h3><i class="fa-solid fa-file-pen"></i> Essay Questions (Con Tracce)</h3>
+            <div class="qa-item"><span class="qa-question">1. Fate vs Free Will?</span><button class="toggle-btn" onclick="toggleAns(this)">Vedi</button><div class="qa-answer">Discuss Prologue vs Romeo's rash decisions. "Character is fate".</div></div>
+            <div class="qa-item"><span class="qa-question">2. Imagery (Light/Dark)?</span><button class="toggle-btn" onclick="toggleAns(this)">Vedi</button><div class="qa-answer">Paradox: Night is safe, Day is dangerous. Youth vs Age.</div></div>
+            <div class="qa-item"><span class="qa-question">3. Forms of Love?</span><button class="toggle-btn" onclick="toggleAns(this)">Vedi</button><div class="qa-answer">Passionate (R&J) vs Contractual (Paris) vs Physical (Nurse).</div></div>
+            <div class="qa-item"><span class="qa-question">4. Juliet's Growth?</span><button class="toggle-btn" onclick="toggleAns(this)">Vedi</button><div class="qa-answer">From compliant child to courageous woman taking the potion.</div></div>
+            <div class="qa-item"><span class="qa-question">5. Language?</span><button class="toggle-btn" onclick="toggleAns(this)">Vedi</button><div class="qa-answer">Puns (Mercutio) and Oxymorons (Romeo) show chaos and misunderstanding.</div></div>
+        </div>
+        
+        <div class="analysis-card" style="background:#eafaf1; border-color:#27ae60;">
+            <h3><i class="fa-solid fa-check-circle"></i> Short Answers (Ripasso)</h3>
+            <button class="toggle-btn" onclick="toggleAns(this)">Vedi Risposte</button>
+            <div class="qa-answer">
+                <ol style="padding:15px; margin-left:15px;">
+                    <li><strong>Juliet's Age:</strong> 13 (Innocence).</li>
+                    <li><strong>Families:</strong> Montagues care; Capulets control.</li>
+                    <li><strong>Humors:</strong> Fluids determining mood.</li>
+                    <li><strong>Prince:</strong> Represents Law.</li>
+                    <li><strong>Queen Mab:</strong> Dreams are lies.</li>
+                    <li><strong>Romeo's Words:</strong> Artificial for Rosaline, Real for Juliet.</li>
+                    <li><strong>Letter:</strong> Stopped by Plague (Fate).</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+
+    <div id="quiz" class="section">
+        <h2>Quiz di Verifica (20 Domande)</h2>
+        <div class="quiz-container">
+            <div class="quiz-card"><div class="quiz-question">1. English City reflected?</div><button class="toggle-btn" onclick="toggleAns(this)">Show</button><div class="qa-answer">London.</div></div>
+            <div class="quiz-card"><div class="quiz-question">2. Timeframe?</div><button class="toggle-btn" onclick="toggleAns(this)">Show</button><div class="qa-answer">5 Days.</div></div>
+            <div class="quiz-card"><div class="quiz-question">3. Friar's portrayal?</div><button class="toggle-btn" onclick="toggleAns(this)">Show</button><div class="qa-answer">Peacemaker.</div></div>
+            <div class="quiz-card"><div class="quiz-question">4. Plague's role?</div><button class="toggle-btn" onclick="toggleAns(this)">Show</button><div class="qa-answer">Stopped letter.</div></div>
+            <div class="quiz-card"><div class="quiz-question">5. Romeo's first love?</div><button class="toggle-btn" onclick="toggleAns(this)">Show</button><div class="qa-answer">Rosaline.</div></div>
+            <div class="quiz-card"><div class="quiz-question">6. Mercutio's view?</div><button class="toggle-btn" onclick="toggleAns(this)">Show</button><div class="qa-answer">Physical love.</div></div>
+            <div class="quiz-card"><div class="quiz-question">7. Why Capulet waits?</div><button class="toggle-btn" onclick="toggleAns(this)">Show</button><div class="qa-answer">Juliet is young.</div></div>
+            <div class="quiz-card"><div class="quiz-question">8. Prince of Cats?</div><button class="toggle-btn" onclick="toggleAns(this)">Show</button><div class="qa-answer">Tybalt.</div></div>
+            <div class="quiz-card"><div class="quiz-question">9. Friar's goal?</div><button class="toggle-btn" onclick="toggleAns(this)">Show</button><div class="qa-answer">End feud.</div></div>
+            <div class="quiz-card"><div class="quiz-question">10. Nurse's betrayal?</div><button class="toggle-btn" onclick="toggleAns(this)">Show</button><div class="qa-answer">Advised bigamy.</div></div>
+            <div class="quiz-card"><div class="quiz-question">11. Romeo's foil?</div><button class="toggle-btn" onclick="toggleAns(this)">Show</button><div class="qa-answer">Benvolio.</div></div>
+            <div class="quiz-card"><div class="quiz-question">12. Punishment?</div><button class="toggle-btn" onclick="toggleAns(this)">Show</button><div class="qa-answer">Banishment.</div></div>
+            <div class="quiz-card"><div class="quiz-question">13. Star-crossed?</div><button class="toggle-btn" onclick="toggleAns(this)">Show</button><div class="qa-answer">Doomed.</div></div>
+            <div class="quiz-card"><div class="quiz-question">14. Light/Dark?</div><button class="toggle-btn" onclick="toggleAns(this)">Show</button><div class="qa-answer">Paradoxical.</div></div>
+            <div class="quiz-card"><div class="quiz-question">15. What's in a name?</div><button class="toggle-btn" onclick="toggleAns(this)">Show</button><div class="qa-answer">Identity.</div></div>
+            <div class="quiz-card"><div class="quiz-question">16. Two forces?</div><button class="toggle-btn" onclick="toggleAns(this)">Show</button><div class="qa-answer">Grace/Rude Will.</div></div>
+            <div class="quiz-card"><div class="quiz-question">17. Haste?</div><button class="toggle-btn" onclick="toggleAns(this)">Show</button><div class="qa-answer">Destructive.</div></div>
+            <div class="quiz-card"><div class="quiz-question">18. Poetic form?</div><button class="toggle-btn" onclick="toggleAns(this)">Show</button><div class="qa-answer">Sonnet.</div></div>
+            <div class="quiz-card"><div class="quiz-question">19. Turning point?</div><button class="toggle-btn" onclick="toggleAns(this)">Show</button><div class="qa-answer">Mercutio's death.</div></div>
+            <div class="quiz-card"><div class="quiz-question">20. Final promise?</div><button class="toggle-btn" onclick="toggleAns(this)">Show</button><div class="qa-answer">Statues.</div></div>
+        </div>
+    </div>
+
+    <div id="original" class="section">
+        <h2>Shakespeare Original (12 Quotes)</h2>
+        <div class="grid">
+            <div class="card"><p class="quote">"From forth the fatal loins of these two foes<br>A pair of star-cross'd lovers take their life."</p><button class="toggle-btn" onclick="toggleAns(this)">Trad</button><div class="qa-answer">"Dai fatali lombi di due nemici..."</div></div>
+            <div class="card"><p class="quote">"O brawling love! O loving hate!<br>O any thing, of nothing first create!"</p><button class="toggle-btn" onclick="toggleAns(this)">Trad</button><div class="qa-answer">"O amore rissoso! O odio amoroso!"</div></div>
+            <div class="card"><p class="quote">"O, she doth teach the torches to burn bright!<br>It seems she hangs upon the cheek of night."</p><button class="toggle-btn" onclick="toggleAns(this)">Trad</button><div class="qa-answer">"Lei insegna alle torce come splendere!"</div></div>
+            <div class="card"><p class="quote">"My lips, two blushing pilgrims, ready stand<br>To smooth that rough touch with a tender kiss."</p><button class="toggle-btn" onclick="toggleAns(this)">Trad</button><div class="qa-answer">"Le mie labbra, due pellegrini..."</div></div>
+            <div class="card"><p class="quote">"But, soft! what light through yonder window breaks?<br>It is the east, and Juliet is the sun."</p><button class="toggle-btn" onclick="toggleAns(this)">Trad</button><div class="qa-answer">"È l'oriente, e Giulietta è il sole."</div></div>
+            <div class="card"><p class="quote">"O Romeo, Romeo! wherefore art thou Romeo?<br>Deny thy father and refuse thy name."</p><button class="toggle-btn" onclick="toggleAns(this)">Trad</button><div class="qa-answer">"Perché sei tu Romeo?"</div></div>
+            <div class="card"><p class="quote">"What's in a name? that which we call a rose<br>By any other name would smell as sweet."</p><button class="toggle-btn" onclick="toggleAns(this)">Trad</button><div class="qa-answer">"Che cos'è un nome?"</div></div>
+            <div class="card"><p class="quote">"Good night, good night! parting is such sweet sorrow,<br>That I shall say good night till it be morrow."</p><button class="toggle-btn" onclick="toggleAns(this)">Trad</button><div class="qa-answer">"L'addio è un dolce dolore."</div></div>
+            <div class="card"><p class="quote">"These violent delights have violent ends<br>And in their triumph die, like fire and powder."</p><button class="toggle-btn" onclick="toggleAns(this)">Trad</button><div class="qa-answer">"Gioie violente hanno fini violente."</div></div>
+            <div class="card"><p class="quote">"A plague o' both your houses!<br>They have made worms' meat of me."</p><button class="toggle-btn" onclick="toggleAns(this)">Trad</button><div class="qa-answer">"Maledette le famiglie!"</div></div>
+            <div class="card"><p class="quote">"O, I am fortune's fool!"</p><button class="toggle-btn" onclick="toggleAns(this)">Trad</button><div class="qa-answer">"Sono il giullare della fortuna!"</div></div>
+            <div class="card"><p class="quote">"Here's to my love! [Drinks]...<br>Thus with a kiss I die."</p><button class="toggle-btn" onclick="toggleAns(this)">Trad</button><div class="qa-answer">"Con un bacio muoio."</div></div>
+        </div>
+    </div>
+
+    <div id="script" class="section">
+        <h2>Script Palketto Highlights</h2>
+        <div class="grid">
+            <div class="card"><span class="meta">Prologue</span><div class="quote">"Destiny wants the death..."</div></div>
+            <div class="card"><span class="meta">Romeo</span><div class="quote">"I love but I am not loved."</div></div>
+            <div class="card"><span class="meta">Juliet</span><div class="quote">"Throw away your name..."</div></div>
+            <div class="card"><span class="meta">Mercutio</span><div class="quote">"May both your families be cursed!"</div></div>
+        </div>
+    </div>
+
+    <div id="notebook" class="section">
+        <h2><i class="fa-solid fa-photo-film"></i> Materiali NotebookLM</h2>
+        <p>I materiali richiedono i nomi file esatti nella cartella GitHub.</p>
+        <div class="media-grid">
+            
+            <div class="media-placeholder"><div class="media-icon" style="color:#2980b9"><i class="fa-solid fa-file-powerpoint"></i></div><div class="media-title">Presentazione (ITA)</div><a href="Presentazione (ITA).pdf" target="_blank" class="dl-btn">Visualizza</a></div>
+            <div class="media-placeholder"><div class="media-icon" style="color:#2980b9"><i class="fa-solid fa-file-powerpoint"></i></div><div class="media-title">Presentation (ENG)</div><a href="Presentation (ENG).pdf" target="_blank" class="dl-btn">View</a></div>
+            
+            <div class="media-placeholder">
+                <div class="media-icon" style="color:#c0392b"><i class="fa-solid fa-video"></i></div>
+                <div class="media-title">Video Overview (ITA)</div>
+                <video width="100%" height="auto" controls><source src="Video_ITA.mp4" type="video/mp4"></video>
+            </div>
+            <div class="media-placeholder">
+                <div class="media-icon" style="color:#c0392b"><i class="fa-solid fa-video"></i></div>
+                <div class="media-title">Video Overview (ENG)</div>
+                <video width="100%" height="auto" controls><source src="Video_ENG.mp4" type="video/mp4"></video>
+            </div>
+            
+            <div class="media-placeholder">
+                <div class="media-icon" style="color:#8e44ad"><i class="fa-solid fa-sitemap"></i></div>
+                <div class="media-title">Mappa Mentale (ITA)</div>
+                <a href="Mappa_ITA.png" target="_blank" class="dl-btn">Apri Immagine</a>
+            </div>
+            <div class="media-placeholder">
+                <div class="media-icon" style="color:#8e44ad"><i class="fa-solid fa-sitemap"></i></div>
+                <div class="media-title">Mind Map (ENG)</div>
+                <a href="Mappa_ENG.png" target="_blank" class="dl-btn">Open Image</a>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<script>
+    function showTab(id) {
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        event.currentTarget.classList.add('active');
+        document.querySelector('.main-content').scrollTop = 0;
+    }
+    function toggleAns(btn) {
+        let ans = btn.nextElementSibling;
+        if (ans.style.display === "block") { ans.style.display = "none"; btn.innerHTML = "Show/Vedi"; } 
+        else { ans.style.display = "block"; btn.innerHTML = "Hide/Nascondi"; }
+    }
+</script>
+</body>
+</html>
